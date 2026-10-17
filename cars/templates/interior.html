@@ -1,0 +1,207 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Interior Craftsmanship & Luxury Cockpits | CarHub{% endblock %}
+
+{% block content %}
+<!-- Interior Hero Section -->
+<section class="hero-section interior-hero" style="min-height: 80vh; background-image: linear-gradient(180deg, rgba(8, 8, 10, 0.45) 0%, rgba(8, 8, 10, 0.9) 80%, var(--bg-primary) 100%), url('{% static 'images/intmain.jpg' %}'); background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; text-align: center; padding-top: 7rem;">
+    <div class="hero-content">
+        <div class="hero-eyebrow">
+            <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--accent-red);"></span>
+            Artisanal Sanctuary
+        </div>
+        <h1 class="hero-title">Step Inside Pure <span class="text-red">Luxury</span></h1>
+        <p class="hero-subtitle">
+            Where aerospace-grade acoustics, bespoke hand-stitched hides, and revolutionary intuitive interfaces converge to create an unmatched sensory haven.
+        </p>
+        <div class="hero-cta-group">
+            <a href="#interiorVideo" class="btn-primary">
+                Watch Cockpit Experience
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+            </a>
+            <button type="button" class="btn-secondary" onclick="openTestDriveModal()">
+                Book Interior Trial
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     INTERIOR VIDEO SECTION (Preserving User's Uploaded Video!)
+     ========================================================================== -->
+<section class="interior-video-section" id="interiorVideo">
+    <div class="container">
+        <div class="interior-video-container">
+            <!-- Left: Textual Narrative -->
+            <div class="interior-text">
+                <div class="section-tag">
+                    <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--accent-red);"></span>
+                    Immersive Motion
+                </div>
+                <h2 style="font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 800; color: white; margin-bottom: 1.25rem; line-height: 1.2;">
+                    An Atmosphere Sculpted for the Senses
+                </h2>
+                <p style="color: var(--text-secondary); font-size: 1.05rem; line-height: 1.7; margin-bottom: 1.25rem;">
+                    Step into an environment where cutting-edge engineering serves human comfort. Multi-contour executive seats offer active lateral bolster adaptation during high-G cornering and pneumatic massage programs tailored for long-distance touring.
+                </p>
+                <p style="color: var(--text-secondary); font-size: 1rem; line-height: 1.7; margin-bottom: 2rem;">
+                    The 31-speaker Burmester 4D surround sound integrates exciter resonators directly inside the seat backrests, translating low-frequency audio into tactile vibrations you feel throughout every journey.
+                </p>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <a href="{% url 'cars_list' %}" class="btn-primary">
+                        Explore Cockpits in Fleet
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right: Video Frame (User's original video preserved with luxury framing) -->
+            <div class="interior-video">
+                <div style="position: relative; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border-light); box-shadow: var(--shadow-lg), var(--shadow-red-glow);">
+                    <video autoplay loop muted playsinline style="width: 100%; height: auto; display: block;" controls>
+                        <source src="{% static 'videos/interior_video.mp4' %}" type="video/mp4">
+                        Your browser does not support video playback.
+                    </video>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     INTERIOR CAROUSEL / SLIDER
+     ========================================================================== -->
+<section class="interior-slider" style="background: var(--bg-primary); padding: 6rem 0;">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-tag">
+                <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--accent-red);"></span>
+                Gallery of Finishes
+            </div>
+            <h2 class="section-title">Interior Highlights & Detail</h2>
+            <p class="section-subtitle">
+                Explore hand-selected appointments across our curated lineup of executive sedans and supercars.
+            </p>
+        </div>
+
+        <div class="slider-container">
+            <button class="slider-btn prev" id="sliderPrev" aria-label="Previous slide">&#10094;</button>
+            <div class="slider-track" id="interiorSliderTrack">
+                <div class="slide">
+                    <img src="{% static 'images/int1 1.png' %}" alt="Executive Leather Seating">
+                    <div style="margin-top: 1rem; text-align: left;">
+                        <h4 style="color: white; font-size: 1.15rem; margin-bottom: 0.25rem;">Nappa Semi-Aniline Leather</h4>
+                        <p style="color: var(--text-secondary); font-size: 0.88rem;">Hand-finished diamond quilting with diamond perforations.</p>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="{% static 'images/int4 1.png' %}" alt="Ambient Light Lounge">
+                    <div style="margin-top: 1rem; text-align: left;">
+                        <h4 style="color: white; font-size: 1.15rem; margin-bottom: 0.25rem;">64-Color Dynamic Mood Illumination</h4>
+                        <p style="color: var(--text-secondary); font-size: 0.88rem;">Fiber-optic light tubes contoured seamlessly along the dash and doors.</p>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="{% static 'images/int3 1.png' %}" alt="OLED Curved Display">
+                    <div style="margin-top: 1rem; text-align: left;">
+                        <h4 style="color: white; font-size: 1.15rem; margin-bottom: 0.25rem;">Pillar-to-Pillar Hyperscreen</h4>
+                        <p style="color: var(--text-secondary); font-size: 0.88rem;">Zero-layer AI user interface with haptic feedback actuators.</p>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="{% static 'images/int6 1.png' %}" alt="Carbon Fiber Center Console">
+                    <div style="margin-top: 1rem; text-align: left;">
+                        <h4 style="color: white; font-size: 1.15rem; margin-bottom: 0.25rem;">Matte Open-Pore Wood & Carbon</h4>
+                        <p style="color: var(--text-secondary); font-size: 0.88rem;">Motorsport carbon weaves blended with open-pore walnut accents.</p>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="{% static 'images/int5 1.png' %}" alt="Acoustic Comfort Glazing">
+                    <div style="margin-top: 1rem; text-align: left;">
+                        <h4 style="color: white; font-size: 1.15rem; margin-bottom: 0.25rem;">Active Acoustic Noise Cancellation</h4>
+                        <p style="color: var(--text-secondary); font-size: 0.88rem;">Laminated acoustic security glass delivering library-quiet cruising.</p>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="{% static 'images/int7.jpg' %}" alt="Alcantara Headliner">
+                    <div style="margin-top: 1rem; text-align: left;">
+                        <h4 style="color: white; font-size: 1.15rem; margin-bottom: 0.25rem;">Dinamica Microfiber Headliner</h4>
+                        <p style="color: var(--text-secondary); font-size: 0.88rem;">Tactile ceiling lining with panoramic stargaze glass modules.</p>
+                    </div>
+                </div>
+            </div>
+            <button class="slider-btn next" id="sliderNext" aria-label="Next slide">&#10095;</button>
+        </div>
+    </div>
+</section>
+
+<!-- 3 Feature Highlight Cards -->
+<section style="background: var(--bg-secondary); padding: 5rem 0; border-top: 1px solid var(--border-subtle);">
+    <div class="container">
+        <div class="about-features-grid">
+            <div class="about-feature-box">
+                <div class="about-feature-icon">💺</div>
+                <h3>Energizing Seat Comfort</h3>
+                <p>Equipped with hot-stone massage simulations, active climate ventilation, and posture-assist ergonomics to alleviate road fatigue.</p>
+            </div>
+
+            <div class="about-feature-box">
+                <div class="about-feature-icon">🎵</div>
+                <h3>Burmester 4D High-End Sound</h3>
+                <p>1,750 watts of pure audiophile power, discrete digital amplifiers, and headphone-free personal speaker modules embedded in the headrests.</p>
+            </div>
+
+            <div class="about-feature-box">
+                <div class="about-feature-icon">🌿</div>
+                <h3>Active Air Balance Filtration</h3>
+                <p>HEPA-level filtration combined with gentle negative-ion ionization and bespoke cabin fragrance diffusion to maintain pristine air purity.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    const track = document.getElementById("interiorSliderTrack");
+    const prevBtn = document.getElementById("sliderPrev");
+    const nextBtn = document.getElementById("sliderNext");
+
+    let currentSlide = 0;
+    function getSlidesPerView() {
+        return window.innerWidth <= 768 ? 1 : 2;
+    }
+
+    function updateTrack() {
+        if (!track) return;
+        const slides = track.querySelectorAll(".slide");
+        if (slides.length === 0) return;
+        const slideWidth = slides[0].offsetWidth;
+        track.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
+    }
+
+    if (nextBtn && prevBtn && track) {
+        const totalSlides = track.querySelectorAll(".slide").length;
+
+        nextBtn.addEventListener("click", () => {
+            const perView = getSlidesPerView();
+            if (currentSlide < totalSlides - perView) {
+                currentSlide++;
+            } else {
+                currentSlide = 0;
+            }
+            updateTrack();
+        });
+
+        prevBtn.addEventListener("click", () => {
+            const perView = getSlidesPerView();
+            if (currentSlide > 0) {
+                currentSlide--;
+            } else {
+                currentSlide = Math.max(0, totalSlides - perView);
+            }
+            updateTrack();
+        });
+
+        window.addEventListener('resize', updateTrack);
+    }
+</script>
+{% endblock %}

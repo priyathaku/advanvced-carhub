@@ -1,0 +1,214 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Client Reviews & Verified Owner Experiences | CarHub{% endblock %}
+
+{% block content %}
+<section class="reviews-section" style="padding-top: 8rem;">
+    <div class="container">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-nav">
+            <a href="{% url 'home' %}">Home</a>
+            <span>/</span>
+            <span style="color: var(--text-white);">Owner Experiences</span>
+        </div>
+
+        <div class="section-header">
+            <div class="section-tag">
+                <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--accent-red);"></span>
+                Verified Provenance
+            </div>
+            <h1 class="section-title">What Our Discerning Owners Say</h1>
+            <p class="section-subtitle">
+                Authentic delivery, track trial, and ownership experiences from verified supercar and luxury vehicle buyers worldwide.
+            </p>
+        </div>
+
+        <!-- Rating Summary Card -->
+        <div style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 2.5rem; max-width: 850px; margin: 0 auto 4rem; display: grid; grid-template-columns: 1fr 1.3fr; gap: 2.5rem; align-items: center; box-shadow: var(--shadow-md);">
+            <div style="text-align: center; border-right: 1px solid var(--border-subtle); padding-right: 2rem;">
+                <div style="font-size: 3.5rem; font-weight: 800; color: white; line-height: 1;">4.9</div>
+                <div style="color: #f59e0b; font-size: 1.4rem; margin: 0.5rem 0;">★★★★★</div>
+                <div style="color: var(--text-secondary); font-size: 0.9rem;">Based on 1,280+ verified reviews</div>
+                <div class="badge badge-red" style="margin-top: 0.75rem;">98% Recommendation Rate</div>
+            </div>
+
+            <div class="rating-bars" style="width: 100%;">
+                <div class="bar">
+                    <span style="min-width:35px; color:var(--text-secondary);">5 ★</span>
+                    <div class="progress" style="background: rgba(255,255,255,0.08); height: 8px; border-radius: 4px; overflow: hidden; flex: 1;">
+                        <div class="fill" style="width: 88%; background: var(--accent-red); height: 100%;"></div>
+                    </div>
+                    <span style="min-width:35px; color:var(--text-muted); text-align:right;">88%</span>
+                </div>
+                <div class="bar">
+                    <span style="min-width:35px; color:var(--text-secondary);">4 ★</span>
+                    <div class="progress" style="background: rgba(255,255,255,0.08); height: 8px; border-radius: 4px; overflow: hidden; flex: 1;">
+                        <div class="fill" style="width: 9%; background: var(--accent-red); height: 100%;"></div>
+                    </div>
+                    <span style="min-width:35px; color:var(--text-muted); text-align:right;">9%</span>
+                </div>
+                <div class="bar">
+                    <span style="min-width:35px; color:var(--text-secondary);">3 ★</span>
+                    <div class="progress" style="background: rgba(255,255,255,0.08); height: 8px; border-radius: 4px; overflow: hidden; flex: 1;">
+                        <div class="fill" style="width: 2%; background: var(--accent-red); height: 100%;"></div>
+                    </div>
+                    <span style="min-width:35px; color:var(--text-muted); text-align:right;">2%</span>
+                </div>
+                <div class="bar">
+                    <span style="min-width:35px; color:var(--text-secondary);">2 ★</span>
+                    <div class="progress" style="background: rgba(255,255,255,0.08); height: 8px; border-radius: 4px; overflow: hidden; flex: 1;">
+                        <div class="fill" style="width: 0.8%; background: var(--accent-red); height: 100%;"></div>
+                    </div>
+                    <span style="min-width:35px; color:var(--text-muted); text-align:right;">0.8%</span>
+                </div>
+                <div class="bar">
+                    <span style="min-width:35px; color:var(--text-secondary);">1 ★</span>
+                    <div class="progress" style="background: rgba(255,255,255,0.08); height: 8px; border-radius: 4px; overflow: hidden; flex: 1;">
+                        <div class="fill" style="width: 0.2%; background: var(--accent-red); height: 100%;"></div>
+                    </div>
+                    <span style="min-width:35px; color:var(--text-muted); text-align:right;">0.2%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Featured Owner Reviews Grid -->
+        <div class="reviews-grid">
+            <div class="review-card">
+                <div class="review-top">
+                    <img src="{% static 'images/face1.jpg' %}" alt="Priya Sharma" class="review-avatar">
+                    <div>
+                        <h3 style="color: white; font-size: 1.15rem;">Priya Sharma</h3>
+                        <span style="color: var(--accent-red); font-size: 0.82rem; font-weight: 600;">Porsche 911 GT3 RS Owner</span>
+                    </div>
+                </div>
+                <div style="color: #f59e0b; margin-bottom: 0.75rem;">★★★★★</div>
+                <p class="review-text">
+                    "The white-glove delivery experience was impeccable. CarHub arranged a private closed-track trial session before finalizing the handover. The vehicle was in immaculate condition with every dynamometer and ECU metric verified."
+                </p>
+                <div style="margin-top: 1rem; font-size: 0.78rem; color: var(--text-muted);">Verified Purchase • New Delhi Flagship</div>
+            </div>
+
+            <div class="review-card">
+                <div class="review-top">
+                    <img src="{% static 'images/face2.jpg' %}" alt="Rahul Mehta" class="review-avatar">
+                    <div>
+                        <h3 style="color: white; font-size: 1.15rem;">Rahul Mehta</h3>
+                        <span style="color: var(--accent-red); font-size: 0.82rem; font-weight: 600;">Mercedes-AMG GT 63 S Owner</span>
+                    </div>
+                </div>
+                <div style="color: #f59e0b; margin-bottom: 0.75rem;">★★★★★</div>
+                <p class="review-text">
+                    "Finding an unblemished AMG GT 63 with complete carbon package was impossible until I consulted CarHub's concierge. They coordinated interstate enclosed transport directly to my garage with zero friction or delay."
+                </p>
+                <div style="margin-top: 1rem; font-size: 0.78rem; color: var(--text-muted);">Verified Purchase • Mumbai Client</div>
+            </div>
+
+            <div class="review-card">
+                <div class="review-top">
+                    <img src="{% static 'images/face3.jpg' %}" alt="Ananya Verma" class="review-avatar">
+                    <div>
+                        <h3 style="color: white; font-size: 1.15rem;">Ananya Verma</h3>
+                        <span style="color: var(--accent-red); font-size: 0.82rem; font-weight: 600;">Range Rover SV Owner</span>
+                    </div>
+                </div>
+                <div style="color: #f59e0b; margin-bottom: 0.75rem;">★★★★★</div>
+                <p class="review-text">
+                    "The side-by-side comparison tool gave my family total clarity between the Range Rover SV and the G 63. Pricing was completely transparent with zero surprise dealer markups. Truly the gold standard in automotive luxury."
+                </p>
+                <div style="margin-top: 1rem; font-size: 0.78rem; color: var(--text-muted);">Verified Purchase • Bengaluru Client</div>
+            </div>
+        </div>
+
+        <!-- Review Tags Marquee -->
+        <div style="margin: 5rem 0; overflow: hidden; padding: 2rem 0; border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);">
+            <div style="text-align: center; margin-bottom: 1.5rem;">
+                <span class="badge badge-red">WHAT ENTHUSIASTS LOVE</span>
+                <h3 style="color: white; font-size: 1.4rem; margin-top: 0.5rem;">Frequently Highlighted by Owners</h3>
+            </div>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <span class="badge badge-glass" style="padding: 0.6rem 1.2rem; font-size: 0.85rem;">⚡ Uncompromised Performance</span>
+                <span class="badge badge-glass" style="padding: 0.6rem 1.2rem; font-size: 0.85rem;">🛡️ Verified 150-Point Audit</span>
+                <span class="badge badge-glass" style="padding: 0.6rem 1.2rem; font-size: 0.85rem;">💎 White-Glove Handover</span>
+                <span class="badge badge-glass" style="padding: 0.6rem 1.2rem; font-size: 0.85rem;">🛞 Razor-Sharp Handling</span>
+                <span class="badge badge-glass" style="padding: 0.6rem 1.2rem; font-size: 0.85rem;">🎵 Burmester 4D Acoustic Bliss</span>
+                <span class="badge badge-glass" style="padding: 0.6rem 1.2rem; font-size: 0.85rem;">📄 Complete Vehicle History</span>
+            </div>
+        </div>
+
+        <!-- Interactive Write a Review Section -->
+        <div style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 3rem; max-width: 720px; margin: 0 auto 5rem; box-shadow: var(--shadow-md);">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <span class="badge badge-red">OWNER SUBMISSIONS</span>
+                <h2 style="font-size: 1.8rem; color: white; font-weight: 800; margin-top: 0.5rem;">Share Your Experience</h2>
+                <p style="color: var(--text-secondary); font-size: 0.92rem;">Your feedback helps other collectors make informed decisions.</p>
+            </div>
+
+            <form class="review-form" onsubmit="submitReview(event)" id="clientReviewForm">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem;">
+                    <div class="form-group-modern">
+                        <label>Your Name *</label>
+                        <input type="text" class="form-input" placeholder="e.g. Vikram Malhotra" required />
+                    </div>
+                    <div class="form-group-modern">
+                        <label>Vehicle Owned / Driven *</label>
+                        <input type="text" class="form-input" placeholder="e.g. Porsche 911 GT3 RS" required />
+                    </div>
+                </div>
+
+                <div class="form-group-modern">
+                    <label>Rating *</label>
+                    <div class="star-selector" style="display: flex; gap: 0.5rem; cursor: pointer;">
+                        <span class="star" data-value="1" style="font-size: 2rem; color: #f59e0b;">★</span>
+                        <span class="star" data-value="2" style="font-size: 2rem; color: #f59e0b;">★</span>
+                        <span class="star" data-value="3" style="font-size: 2rem; color: #f59e0b;">★</span>
+                        <span class="star" data-value="4" style="font-size: 2rem; color: #f59e0b;">★</span>
+                        <span class="star" data-value="5" style="font-size: 2rem; color: #f59e0b;">★</span>
+                    </div>
+                    <input type="hidden" id="selectedRating" value="5" />
+                </div>
+
+                <div class="form-group-modern">
+                    <label>Your Review *</label>
+                    <textarea class="form-input form-textarea" rows="4" placeholder="Detail your driving impressions, build quality, and delivery experience..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn-primary" style="width: 100%; padding: 0.95rem; border-radius: var(--radius-md);">
+                    Submit Verified Owner Review
+                </button>
+            </form>
+
+            <div class="review-success" id="reviewSuccess" style="display:none; text-align: center; padding: 2rem;">
+                <div style="font-size: 3rem; margin-bottom: 0.5rem;">🎉</div>
+                <h3 style="color: white; font-size: 1.4rem; margin-bottom: 0.5rem;">Thank You For Your Review!</h3>
+                <p style="color: var(--text-secondary); font-size: 0.95rem;">Your feedback has been received and will be published upon concierge validation.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Star Rating Interactivity
+    const stars = document.querySelectorAll(".star-selector .star");
+    const ratingInput = document.getElementById("selectedRating");
+    stars.forEach(star => {
+        star.addEventListener("click", () => {
+            const val = parseInt(star.dataset.value);
+            if (ratingInput) ratingInput.value = val;
+            stars.forEach((s, i) => {
+                s.style.color = i < val ? "#f59e0b" : "#444";
+            });
+        });
+    });
+
+    function submitReview(e) {
+        e.preventDefault();
+        const form = document.getElementById("clientReviewForm");
+        const success = document.getElementById("reviewSuccess");
+        if (form && success) {
+            form.style.display = "none";
+            success.style.display = "block";
+        }
+    }
+</script>
+{% endblock %}

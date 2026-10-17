@@ -1,0 +1,412 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CarHub | Luxury & Performance Automotive{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Experience automotive excellence with CarHub. Discover, compare, and test drive the world's most prestigious luxury vehicles.{% endblock %}">
+    
+    <!-- Google Fonts & Stylesheet -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Cinzel:wght@600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏎️</text></svg>">
+    
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+<!-- Sticky Header / Navbar -->
+<nav class="navbar" id="mainNavbar">
+    <a href="{% url 'home' %}" class="nav-brand">
+        <div class="nav-logo-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                <polyline points="2 17 12 22 22 17"></polyline>
+                <polyline points="2 12 12 17 22 12"></polyline>
+            </svg>
+        </div>
+        <span class="nav-logo-text">CarHub<span>.</span></span>
+    </a>
+
+    <ul class="nav-links" id="navLinks">
+        <li><a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">Home</a></li>
+        <li><a href="{% url 'cars_list' %}" class="{% if request.resolver_match.url_name == 'cars_list' or request.resolver_match.url_name == 'car_detail' %}active{% endif %}">Cars</a></li>
+        <li><a href="{% url 'brands' %}" class="{% if request.resolver_match.url_name == 'brands' %}active{% endif %}">Brands</a></li>
+        <li><a href="{% url 'compare_cars' %}" class="{% if request.resolver_match.url_name == 'compare_cars' %}active{% endif %}">Compare</a></li>
+        <li>
+            <a href="{% url 'favorites' %}" class="{% if request.resolver_match.url_name == 'favorites' %}active{% endif %}">
+                Favorites
+                <span class="nav-badge" id="navFavBadge">{% if nav_favorite_count %}{{ nav_favorite_count }}{% else %}0{% endif %}</span>
+            </a>
+        </li>
+        <li><a href="{% url 'about' %}" class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}">About</a></li>
+        <li><a href="{% url 'reviews' %}" class="{% if request.resolver_match.url_name == 'reviews' %}active{% endif %}">Reviews</a></li>
+        <li><a href="{% url 'contact' %}" class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}">Contact</a></li>
+        
+        <!-- Mobile auth options -->
+        {% if user.is_authenticated %}
+            <li class="mobile-only"><a href="{% url 'logout' %}">Logout ({{ user.username }})</a></li>
+        {% else %}
+            <li class="mobile-only"><a href="{% url 'login' %}">Sign In</a></li>
+            <li class="mobile-only"><a href="{% url 'register' %}">Create Account</a></li>
+        {% endif %}
+    </ul>
+
+    <div class="nav-actions">
+        {% if user.is_authenticated %}
+            <span style="font-size: 0.85rem; color: var(--text-secondary);">VIP: <strong style="color:var(--text-white);">{{ user.username }}</strong></span>
+            <a href="{% url 'logout' %}" class="btn-nav-outline">Logout</a>
+        {% else %}
+            <a href="{% url 'register' %}" class="btn-nav-primary">Join VIP</a>
+        {% endif %}
+    </div>
+
+    <!-- Mobile Hamburger Toggle -->
+    <button class="hamburger-toggle" id="hamburgerToggle" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+</nav>
+
+<!-- System Django Messages Toast / Alert Container -->
+<div class="toast-container" id="toastContainer">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="toast alert-{% if message.tags %}{{ message.tags }}{% else %}info{% endif %}">
+                <span>
+                    {% if message.tags == 'success' %}✓{% elif message.tags == 'error' %}⚠️{% else %}ℹ️{% endif %}
+                </span>
+                <span>{{ message }}</span>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<!-- Main Page Content Block -->
+<main id="mainContent">
+    {% block content %}{% endblock %}
+</main>
+
+<!-- Universal Test Drive Modal -->
+<div class="modal-backdrop" id="testDriveModal">
+    <div class="modal-card">
+        <button class="modal-close-btn" id="closeModalBtn" aria-label="Close modal">&times;</button>
+        <div style="text-align: center; margin-bottom: 1.5rem;">
+            <span class="badge badge-red" style="margin-bottom: 0.5rem;">VIP EXPERIENCE</span>
+            <h2 style="font-size: 1.8rem; color: var(--text-white); font-weight: 800;">Book a Private Test Drive</h2>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">Experience high-performance precision firsthand with our senior product concierge.</p>
+        </div>
+
+        <form action="{% url 'book_test_drive' %}" method="post" id="testDriveModalForm">
+            {% csrf_token %}
+            <div class="form-group-modern">
+                <label>Your Name *</label>
+                <input type="text" name="name" class="form-input" placeholder="Full Legal Name" required value="{% if user.is_authenticated %}{{ user.get_full_name|default:user.username }}{% endif %}">
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group-modern">
+                    <label>Email Address *</label>
+                    <input type="email" name="email" class="form-input" placeholder="name@example.com" required value="{% if user.is_authenticated %}{{ user.email }}{% endif %}">
+                </div>
+                <div class="form-group-modern">
+                    <label>Phone Number *</label>
+                    <input type="tel" name="phone" class="form-input" placeholder="+1 (555) 000-0000" required>
+                </div>
+            </div>
+            <div class="form-group-modern">
+                <label>Select Vehicle *</label>
+                <select name="car" id="modalCarSelect" class="form-select" required>
+                    <option value="">-- Choose from our Fleet --</option>
+                    {% if car %}
+                        <option value="{{ car.id }}" selected>{{ car.brand }} {{ car.name }} ({{ car.year }}) - {{ car.formatted_price }}</option>
+                    {% endif %}
+                </select>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group-modern">
+                    <label>Preferred Date *</label>
+                    <input type="date" name="preferred_date" id="modalPrefDate" class="form-input" required>
+                </div>
+                <div class="form-group-modern">
+                    <label>Time Window *</label>
+                    <select name="preferred_time" class="form-select" required>
+                        <option value="10:00 AM - 11:30 AM">10:00 AM - 11:30 AM (Morning VIP)</option>
+                        <option value="12:00 PM - 01:30 PM">12:00 PM - 01:30 PM (Midday)</option>
+                        <option value="02:30 PM - 04:00 PM">02:30 PM - 04:00 PM (Afternoon Track)</option>
+                        <option value="04:30 PM - 06:00 PM">04:30 PM - 06:00 PM (Sunset Cruise)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group-modern">
+                <label>Special Requests / Location Preferences</label>
+                <textarea name="notes" class="form-input form-textarea" placeholder="Track trial, home delivery, or specific requirements..." rows="2"></textarea>
+            </div>
+            <button type="submit" class="btn-primary" style="width: 100%; padding: 1rem; border-radius: var(--radius-md);">
+                Confirm VIP Test Drive Request
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-main-grid">
+            <div class="footer-brand">
+                <h2>CarHub<span>.</span></h2>
+                <p>The premier luxury and exotic automotive platform. Engineering extraordinary driving experiences, verified certifications, and nationwide concierge delivery.</p>
+                <div class="footer-social-links">
+                    <a href="https://instagram.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Instagram">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                    </a>
+                    <a href="https://youtube.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="YouTube">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
+                    </a>
+                    <a href="https://x.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Twitter">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+                    </a>
+                    <a href="https://linkedin.com" target="_blank" rel="noopener" class="footer-social-btn" aria-label="LinkedIn">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul class="footer-links-list">
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'cars_list' %}">Explore All Cars</a></li>
+                    <li><a href="{% url 'brands' %}">Prestige Brands</a></li>
+                    <li><a href="{% url 'compare_cars' %}">Vehicle Comparison</a></li>
+                    <li><a href="{% url 'favorites' %}">Saved Wishlist</a></li>
+                    <li><a href="javascript:void(0)" onclick="openTestDriveModal()">Book Test Drive</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Experience</h4>
+                <ul class="footer-links-list">
+                    <li><a href="{% url 'exterior' %}">Exterior Aesthetics</a></li>
+                    <li><a href="{% url 'interior' %}">Interior Luxury</a></li>
+                    <li><a href="{% url 'reviews' %}">Customer Reviews</a></li>
+                    <li><a href="{% url 'about' %}">About CarHub</a></li>
+                    <li><a href="{% url 'contact' %}">Showroom Locations</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>VIP Showroom</h4>
+                <p style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+                    123 CarHub Boulevard<br>
+                    Aerocity, New Delhi, India 110037
+                </p>
+                <p style="font-size: 0.92rem; color: var(--text-white); font-weight: 600; margin-bottom: 0.25rem;">
+                    +91 98765 43210
+                </p>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">
+                    concierge@carhub.com
+                </p>
+                <div class="hours-badge" style="margin-top: 0.75rem;">
+                    <span class="hours-dot"></span> Open Today: 09:00 - 19:00
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom-bar">
+            <div>&copy; 2026 CarHub. All rights reserved. Designed for automotive perfection.</div>
+            <div style="display:flex; gap:1.5rem;">
+                <a href="{% url 'about' %}" style="color:var(--text-muted);">Privacy Policy</a>
+                <a href="{% url 'about' %}" style="color:var(--text-muted);">Terms of Service</a>
+                <a href="{% url 'contact' %}" style="color:var(--text-muted);">Contact Support</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Global JavaScript -->
+<script>
+    // 1. Sticky Navbar on Scroll
+    const navbar = document.getElementById('mainNavbar');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 40) {
+            navbar.classList.add('navbar-scrolled');
+        } else {
+            navbar.classList.remove('navbar-scrolled');
+        }
+    });
+
+    // 2. Mobile Hamburger Toggle
+    const hamburgerToggle = document.getElementById('hamburgerToggle');
+    const navLinks = document.getElementById('navLinks');
+    if (hamburgerToggle && navLinks) {
+        hamburgerToggle.addEventListener('click', () => {
+            hamburgerToggle.classList.toggle('open');
+            navLinks.classList.toggle('open');
+        });
+        // Close menu when a link is clicked
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburgerToggle.classList.remove('open');
+                navLinks.classList.remove('open');
+            });
+        });
+    }
+
+    // 3. Set minimum date for datepicker
+    const prefDateInput = document.getElementById('modalPrefDate');
+    if (prefDateInput) {
+        const today = new Date().toISOString().split('T')[0];
+        prefDateInput.min = today;
+    }
+
+    // 4. Test Drive Modal Logic
+    const testDriveModal = document.getElementById('testDriveModal');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const modalCarSelect = document.getElementById('modalCarSelect');
+
+    function openTestDriveModal(carId = null, carTitle = null) {
+        if (testDriveModal) {
+            testDriveModal.classList.add('open');
+            document.body.style.overflow = 'hidden';
+            
+            // If carId provided, ensure option exists or select it
+            if (carId && modalCarSelect) {
+                let found = false;
+                for (let i = 0; i < modalCarSelect.options.length; i++) {
+                    if (modalCarSelect.options[i].value == carId) {
+                        modalCarSelect.selectedIndex = i;
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found && carTitle) {
+                    const opt = document.createElement('option');
+                    opt.value = carId;
+                    opt.textContent = carTitle;
+                    opt.selected = true;
+                    modalCarSelect.appendChild(opt);
+                }
+            }
+        }
+    }
+
+    function closeTestDriveModal() {
+        if (testDriveModal) {
+            testDriveModal.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+    }
+
+    if (closeModalBtn) {
+        closeModalBtn.addEventListener('click', closeTestDriveModal);
+    }
+
+    if (testDriveModal) {
+        testDriveModal.addEventListener('click', (e) => {
+            if (e.target === testDriveModal) {
+                closeTestDriveModal();
+            }
+        });
+    }
+
+    // 5. Toast Notifications Helper
+    function showToast(message, type = 'success') {
+        const container = document.getElementById('toastContainer');
+        if (!container) return;
+        const toast = document.createElement('div');
+        toast.className = `toast alert-${type}`;
+        toast.innerHTML = `<span>${type === 'success' ? '✓' : '⚠️'}</span><span>${message}</span>`;
+        container.appendChild(toast);
+        setTimeout(() => {
+            toast.style.transition = 'all 0.4s ease';
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateY(15px)';
+            setTimeout(() => toast.remove(), 400);
+        }, 4000);
+    }
+
+    // Auto-fade server toasts
+    document.querySelectorAll('.toast').forEach(t => {
+        setTimeout(() => {
+            t.style.transition = 'all 0.4s ease';
+            t.style.opacity = '0';
+            t.style.transform = 'translateY(15px)';
+            setTimeout(() => t.remove(), 400);
+        }, 4500);
+    });
+
+    // 6. Favorites AJAX Toggle
+    function toggleFavorite(carId, buttonEl) {
+        const url = `/favorites/toggle/${carId}/`;
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json'
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === 'success') {
+                if (buttonEl) {
+                    if (data.favorited) {
+                        buttonEl.classList.add('active');
+                    } else {
+                        buttonEl.classList.remove('active');
+                    }
+                }
+                // Update badge in navbar
+                const badge = document.getElementById('navFavBadge');
+                if (badge) {
+                    badge.textContent = data.total_favorites;
+                }
+                showToast(data.message, 'success');
+            }
+        })
+        .catch(err => {
+            console.error('Error toggling favorite:', err);
+            // Fallback to normal navigation
+            window.location.href = url;
+        });
+    }
+
+    // 7. Animated Viewport Counters
+    const counters = document.querySelectorAll('.counter-value');
+    if (counters.length > 0) {
+        const observer = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    const target = parseInt(el.getAttribute('data-target') || el.innerText, 10);
+                    const prefix = el.getAttribute('data-prefix') || '';
+                    const suffix = el.getAttribute('data-suffix') || '';
+                    let current = 0;
+                    const step = Math.ceil(target / 45);
+                    const timer = setInterval(() => {
+                        current += step;
+                        if (current >= target) {
+                            el.innerText = `${prefix}${target.toLocaleString()}${suffix}`;
+                            clearInterval(timer);
+                        } else {
+                            el.innerText = `${prefix}${current.toLocaleString()}${suffix}`;
+                        }
+                    }, 30);
+                    obs.unobserve(el);
+                }
+            });
+        }, { threshold: 0.4 });
+
+        counters.forEach(c => observer.observe(c));
+    }
+</script>
+
+{% block extra_scripts %}{% endblock %}
+
+</body>
+</html>

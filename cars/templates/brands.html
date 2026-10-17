@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Prestige Automotive Brands | CarHub Luxury Marques{% endblock %}
+
+{% block content %}
+<section style="padding-top: 8rem; padding-bottom: 6rem;">
+    <div class="container">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-nav">
+            <a href="{% url 'home' %}">Home</a>
+            <span>/</span>
+            <span style="color: var(--text-white);">Prestige Brands</span>
+        </div>
+
+        <!-- Section Header -->
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3.5rem; flex-wrap: wrap; gap: 1.5rem;">
+            <div>
+                <div class="section-tag">
+                    <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--accent-red);"></span>
+                    World-Class Automakers
+                </div>
+                <h1 style="font-size: clamp(2.2rem, 4vw, 3.2rem); font-weight: 800; color: white; line-height: 1.15;">
+                    Prestige Marques & Heritage
+                </h1>
+                <p style="color: var(--text-secondary); max-width: 650px; font-size: 1.05rem; margin-top: 0.5rem;">
+                    Discover the storied manufacturers defining modern motorsport, grand touring luxury, and revolutionary powertrain engineering.
+                </p>
+            </div>
+
+            <div>
+                <span class="badge badge-red" style="font-size: 0.9rem; padding: 0.6rem 1.25rem;">
+                    {{ total_brands_count }} World Marques • {{ total_fleet_count }} Vehicles in Fleet
+                </span>
+            </div>
+        </div>
+
+        <!-- Brands Grid -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 2.25rem;">
+            {% for b in brands %}
+                <div class="car-card" style="transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);">
+                    <div class="car-card-media" style="height: 240px;">
+                        <img src="{{ b.image }}" alt="{{ b.name }}" class="car-card-img" loading="lazy">
+                        <div class="car-card-badges">
+                            <span class="badge badge-red">{{ b.origin }}</span>
+                            <span class="badge badge-glass">{{ b.count }} Model{{ b.count|pluralize }}</span>
+                        </div>
+                    </div>
+
+                    <div class="car-card-body" style="padding: 2rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.5rem;">
+                            <h2 style="color: white; font-size: 1.6rem; font-weight: 800; letter-spacing: -0.5px;">{{ b.name }}</h2>
+                            {% if b.min_price %}
+                                <span style="color: var(--accent-red); font-weight: 700; font-size: 0.95rem;">From {{ b.min_price }}</span>
+                            {% endif %}
+                        </div>
+
+                        <div style="color: var(--accent-red); font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.85rem;">
+                            {{ b.tagline }}
+                        </div>
+
+                        <p style="color: var(--text-secondary); font-size: 0.92rem; line-height: 1.65; margin-bottom: 2rem; flex: 1;">
+                            {{ b.desc }}
+                        </p>
+
+                        <div style="display: flex; gap: 0.75rem; align-items: center; border-top: 1px solid var(--border-subtle); padding-top: 1.25rem; margin-top: auto;">
+                            <a href="{% url 'cars_list' %}?brand={{ b.name }}" class="btn-primary" style="flex: 1; padding: 0.75rem 1rem; font-size: 0.9rem;">
+                                Explore {{ b.name }} Fleet
+                                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            </a>
+                            <a href="{% url 'compare_cars' %}" class="btn-secondary" style="padding: 0.75rem 1rem; font-size: 0.85rem;" title="Compare Marques">
+                                ⚖️
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Bottom Guidance Banner -->
+        <div style="margin-top: 5rem; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: 3rem 2.5rem; text-align: center; box-shadow: var(--shadow-lg);">
+            <span class="badge badge-red" style="margin-bottom: 1rem;">CUSTOM SOURCING ALLOCATION</span>
+            <h3 style="font-size: 1.8rem; color: white; font-weight: 800; margin-bottom: 0.75rem;">
+                Seeking a Specific Marque or Bespoke Specification?
+            </h3>
+            <p style="color: var(--text-secondary); max-width: 680px; margin: 0 auto 2rem; font-size: 1rem; line-height: 1.6;">
+                Our international acquisition network sources rare allocations, limited production runs, and collector editions directly from certified private collections and manufacturer partners.
+            </p>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <a href="{% url 'contact' %}" class="btn-primary" style="padding: 0.85rem 2rem;">
+                    Inquire with Senior Concierge
+                </a>
+                <button type="button" class="btn-secondary" onclick="openTestDriveModal()" style="padding: 0.85rem 2rem;">
+                    Book Private Showing
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

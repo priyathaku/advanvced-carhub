@@ -1,0 +1,229 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contact VIP Concierge | CarHub Showrooms{% endblock %}
+
+{% block content %}
+<section class="contact-section">
+    <div class="container">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-nav">
+            <a href="{% url 'home' %}">Home</a>
+            <span>/</span>
+            <span style="color: var(--text-white);">Contact & Showrooms</span>
+        </div>
+
+        <div class="section-header" style="text-align: left; margin-bottom: 3.5rem;">
+            <div class="section-tag">
+                <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--accent-red);"></span>
+                VIP Concierge & Showrooms
+            </div>
+            <h1 class="section-title">Connect with Our Luxury Specialists</h1>
+            <p class="section-subtitle">
+                Visit our premier flagship gallery in Aerocity, schedule a private vehicle showing, or submit a custom inquiry to our executive concierge team.
+            </p>
+        </div>
+
+        <!-- Contact Split Layout -->
+        <div class="contact-layout-modern">
+            <!-- Left: Dealer & Showroom Information Card -->
+            <div class="dealer-info-card">
+                <h3 style="font-size: 1.4rem; color: white; margin-bottom: 1.5rem; font-weight: 700;">
+                    Flagship Gallery & Showroom
+                </h3>
+
+                <div class="dealer-item">
+                    <div class="dealer-item-icon">📍</div>
+                    <div class="dealer-item-text">
+                        <h4>Headquarters Location</h4>
+                        <p>123 CarHub Boulevard, Aerocity<br>New Delhi, India 110037</p>
+                    </div>
+                </div>
+
+                <div class="dealer-item">
+                    <div class="dealer-item-icon">📞</div>
+                    <div class="dealer-item-text">
+                        <h4>Direct Telephone</h4>
+                        <p><a href="tel:+919876543210">+91 98765 43210</a></p>
+                        <span style="font-size: 0.78rem; color: var(--text-muted);">Toll-Free Worldwide VIP Line</span>
+                    </div>
+                </div>
+
+                <div class="dealer-item">
+                    <div class="dealer-item-icon">✉️</div>
+                    <div class="dealer-item-text">
+                        <h4>Concierge Email</h4>
+                        <p><a href="mailto:concierge@carhub.com">concierge@carhub.com</a></p>
+                        <span style="font-size: 0.78rem; color: var(--text-muted);">Average response time: &lt; 2 hours</span>
+                    </div>
+                </div>
+
+                <div class="dealer-item">
+                    <div class="dealer-item-icon">⏱️</div>
+                    <div class="dealer-item-text">
+                        <h4>Showroom Operating Hours</h4>
+                        <p style="font-size: 0.95rem; margin-bottom: 0.25rem;">Monday – Friday: 09:00 AM – 07:00 PM</p>
+                        <p style="font-size: 0.95rem; margin-bottom: 0.5rem;">Saturday: 10:00 AM – 06:00 PM</p>
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">Sunday: Private Appointments Only</p>
+                        
+                        <div class="hours-badge">
+                            <span class="hours-dot"></span>
+                            Showroom Open Now
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-subtle);">
+                    <button type="button" class="btn-primary" onclick="openTestDriveModal()" style="width: 100%; border-radius: var(--radius-md);">
+                        Schedule VIP Private Showing
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right: Contact Form Card -->
+            <div class="contact-form-card">
+                <h3 style="font-size: 1.4rem; color: white; margin-bottom: 0.5rem; font-weight: 700;">
+                    Send an Inquiry to Concierge
+                </h3>
+                <p style="color: var(--text-secondary); margin-bottom: 1.75rem; font-size: 0.92rem;">
+                    Please complete the form below. A senior automotive specialist will respond promptly.
+                </p>
+
+                {% if success %}
+                    <div class="alert-box alert-success" style="margin-bottom: 2rem;">
+                        <span style="font-size: 1.25rem;">✓</span>
+                        <div>
+                            <strong>Inquiry Dispatched Successfully!</strong>
+                            <div style="font-size: 0.85rem;">Our luxury concierge specialist will review your request and contact you within 24 hours.</div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <form method="post" action="{% url 'contact' %}">
+                    {% csrf_token %}
+                    
+                    {% if form.non_field_errors %}
+                        <div class="alert-box alert-error">
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
+
+                    <div class="form-group-modern">
+                        <label>Your Name *</label>
+                        {{ form.name }}
+                        {% if form.name.errors %}
+                            <div style="color: #f87171; font-size: 0.8rem; margin-top: 0.25rem;">{{ form.name.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group-modern">
+                        <label>Email Address *</label>
+                        {{ form.email }}
+                        {% if form.email.errors %}
+                            <div style="color: #f87171; font-size: 0.8rem; margin-top: 0.25rem;">{{ form.email.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group-modern">
+                        <label>Subject / Topic *</label>
+                        {{ form.subject }}
+                        {% if form.subject.errors %}
+                            <div style="color: #f87171; font-size: 0.8rem; margin-top: 0.25rem;">{{ form.subject.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group-modern">
+                        <label>Your Message *</label>
+                        {{ form.message }}
+                        {% if form.message.errors %}
+                            <div style="color: #f87171; font-size: 0.8rem; margin-top: 0.25rem;">{{ form.message.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <button type="submit" class="btn-primary" style="width: 100%; padding: 0.95rem; border-radius: var(--radius-md); font-size: 1rem;">
+                        Send Message to Concierge
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Google Map Showcase -->
+        <div style="border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border-subtle); margin-bottom: 5rem; box-shadow: var(--shadow-lg);">
+            <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d224345.83923279136!2d77.06889955820301!3d28.527582005351733!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce2b3cf9a3fdd%3A0x79b5c64ec8a34a!2sNew%20Delhi!5e0!3m2!1sen!2sin!4v1700000000000"
+                width="100%" 
+                height="380" 
+                style="border:0; filter: invert(90%) hue-rotate(180deg) contrast(120%); display:block;" 
+                allowfullscreen="" 
+                loading="lazy">
+            </iframe>
+        </div>
+
+        <!-- FAQ Section -->
+        <div style="max-width: 800px; margin: 0 auto;">
+            <div class="section-header">
+                <div class="section-tag">
+                    <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--accent-red);"></span>
+                    Help & Clarity
+                </div>
+                <h2 class="section-title">Frequently Asked Questions</h2>
+            </div>
+
+            <div class="faq-container">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        How do I schedule a private closed-track test drive? <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>You can reserve a slot directly using our "Book Test Drive" tool on any vehicle page or modal. Our concierge coordinates track time, personal instructor briefing, and telemetry review.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        Does CarHub provide worldwide or interstate delivery? <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes. We operate a fleet of climate-controlled, air-ride enclosed transport carriers capable of delivering vehicles anywhere in India and coordinating customs for international export.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        What certification standards do listed vehicles meet? <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Every listed supercar and luxury vehicle undergoes our proprietary 150-point diagnostic audit, verifying mechanical health, ECU tuning provenance, paint depth consistency, and service history.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        What financing and leasing options are supported? <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>We partner with premier private banks and luxury asset financing institutions offering tailored lease arrangements, structured equity plans, and zero-penalty balloon structures.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function toggleFAQ(btn) {
+        const answer = btn.nextElementSibling;
+        const icon = btn.querySelector(".faq-icon");
+        const isOpen = answer.classList.contains("open");
+
+        document.querySelectorAll(".faq-answer").forEach(a => a.classList.remove("open"));
+        document.querySelectorAll(".faq-icon").forEach(i => i.textContent = "+");
+
+        if (!isOpen) {
+            answer.classList.add("open");
+            icon.textContent = "−";
+        }
+    }
+</script>
+{% endblock %}

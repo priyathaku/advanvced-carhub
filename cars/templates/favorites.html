@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Your Favorite Luxury Cars | CarHub{% endblock %}
+
+{% block content %}
+<section class="favorites-section">
+    <div class="container">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-nav">
+            <a href="{% url 'home' %}">Home</a>
+            <span>/</span>
+            <span style="color: var(--text-white);">Favorites</span>
+        </div>
+
+        <!-- Header -->
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; flex-wrap: wrap; gap: 1.5rem;">
+            <div>
+                <div class="section-tag">
+                    <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--accent-red);"></span>
+                    Personal Wishlist
+                </div>
+                <h1 style="font-size: clamp(2.2rem, 4vw, 3rem); font-weight: 800; color: white;">
+                    Your Favorite Cars
+                </h1>
+                <p style="color: var(--text-secondary); max-width: 600px;">
+                    Vehicles you have saved for personal review, private test drive reservations, and technical comparisons.
+                </p>
+            </div>
+
+            {% if favorite_cars %}
+                <div>
+                    <span class="badge badge-red" style="font-size: 0.85rem; padding: 0.5rem 1rem;">
+                        {{ count }} Saved Vehicle{{ count|pluralize }}
+                    </span>
+                </div>
+            {% endif %}
+        </div>
+
+        {% if favorite_cars %}
+            <div class="cars-grid" id="favoritesGrid">
+                {% for car in favorite_cars %}
+                    <div class="car-card" id="fav-card-{{ car.id }}">
+                        <div class="car-card-media">
+                            <img src="{{ car.get_image_url }}" alt="{{ car.brand }} {{ car.name }}" class="car-card-img" loading="lazy">
+                            <div class="car-card-badges">
+                                <span class="badge badge-red">{{ car.brand }}</span>
+                                <span class="badge badge-glass">{{ car.body_type }}</span>
+                            </div>
+
+                            <!-- Remove from Favorites Button -->
+                            <button type="button" 
+                                    class="btn-fav active" 
+                                    onclick="toggleFavorite({{ car.id }}, this); removeFavCard({{ car.id }});"
+                                    title="Remove from favorites">
+                                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <div class="car-card-body">
+                            <div class="car-card-meta">
+                                <span class="car-brand">{{ car.brand }}</span>
+                                <span class="car-year">{{ car.year }} Model</span>
+                            </div>
+                            <h3 class="car-title">{{ car.name }}</h3>
+
+                            <!-- Spec Pills -->
+                            <div class="car-specs-grid">
+                                <div class="spec-pill">
+                                    <span class="spec-pill-label">Power</span>
+                                    <span class="spec-pill-value">{{ car.horsepower }} HP</span>
+                                </div>
+                                <div class="spec-pill">
+                                    <span class="spec-pill-label">Trans</span>
+                                    <span class="spec-pill-value">{{ car.transmission }}</span>
+                                </div>
+                                <div class="spec-pill">
+                                    <span class="spec-pill-label">Mileage</span>
+                                    <span class="spec-pill-value">{{ car.mileage }} km</span>
+                                </div>
+                            </div>
+
+                            <div class="car-card-footer">
+                                <div class="car-price-block">
+                                    <span class="car-price-label">Price</span>
+                                    <div class="car-price">{{ car.formatted_price }}</div>
+                                </div>
+                                <div style="display:flex; gap:0.5rem; align-items:center;">
+                                    <button type="button" class="btn-secondary" style="padding: 0.55rem 0.8rem; font-size: 0.8rem;" onclick="openTestDriveModal({{ car.id }}, '{{ car.brand }} {{ car.name }}')" title="Book VIP Test Drive">
+                                        Test Drive
+                                    </button>
+                                    <a href="{% url 'car_detail' car.id %}" class="btn-card-action">
+                                        View
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div style="text-align: center; margin-top: 4rem;">
+                <a href="{% url 'cars_list' %}" class="btn-secondary" style="padding: 0.9rem 2.2rem;">
+                    Continue Browsing Inventory
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <div class="empty-state-icon">❤️</div>
+                <h3>Your Wishlist is Currently Empty</h3>
+                <p>You haven't saved any vehicles yet. Explore our luxury fleet and click the heart icon on any car to keep track of your favorite rides.</p>
+                <a href="{% url 'cars_list' %}" class="btn-primary" style="margin-top: 0.5rem;">
+                    Explore Luxury Inventory
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<script>
+    function removeFavCard(carId) {
+        const card = document.getElementById(`fav-card-${carId}`);
+        if (card) {
+            card.style.transition = 'all 0.4s ease';
+            card.style.transform = 'scale(0.9)';
+            card.style.opacity = '0';
+            setTimeout(() => {
+                card.remove();
+                const grid = document.getElementById('favoritesGrid');
+                if (grid && grid.children.length === 0) {
+                    location.reload();
+                }
+            }, 400);
+        }
+    }
+</script>
+{% endblock %}

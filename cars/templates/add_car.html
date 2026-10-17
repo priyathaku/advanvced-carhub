@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Add Vehicle | CarHub Admin{% endblock %}
+
+{% block content %}
+<section style="padding: 8rem 1.5rem 5rem; min-height: 85vh;">
+    <div class="container" style="max-width: 650px;">
+        <div style="background: var(--bg-card); border: 1px solid var(--border-light); border-radius: var(--radius-xl); padding: 3rem 2.5rem; box-shadow: var(--shadow-lg);">
+            <div class="section-tag">
+                <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--accent-red);"></span>
+                Inventory Management
+            </div>
+            <h2 style="font-size: 2rem; color: white; font-weight: 800; margin-bottom: 1.5rem;">Add a New Luxury Car</h2>
+
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="form-group-modern">
+                        <label>{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors %}
+                            <div style="color: #f87171; font-size: 0.8rem; margin-top: 0.25rem;">{{ field.errors }}</div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+                <button type="submit" class="btn-primary" style="width: 100%; padding: 0.95rem; border-radius: var(--radius-md); font-size: 1rem; margin-top: 1rem;">
+                    Submit Vehicle Listing
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

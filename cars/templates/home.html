@@ -1,0 +1,405 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}CarHub | Drive Beyond Limits - Luxury & Supercars{% endblock %}
+
+{% block content %}
+
+<!-- ==========================================================================
+     1. HERO SECTION (Drive Beyond Limits)
+     ========================================================================== -->
+<section class="hero-section">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <div class="hero-eyebrow">
+            <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--accent-red); box-shadow:0 0 8px var(--accent-red);"></span>
+            The Pinnacle of Luxury Mobility
+        </div>
+        <h1 class="hero-title">
+            Drive <span class="text-red">Beyond</span> <span class="text-gradient">Limits</span>
+        </h1>
+        <p class="hero-subtitle">
+            Curated precision engineering, breathtaking power, and uncompromising luxury. Discover the world's most sought-after performance vehicles.
+        </p>
+        <div class="hero-cta-group">
+            <a href="{% url 'cars_list' %}" class="btn-primary">
+                Explore Cars
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="#quickSearch" class="btn-secondary">
+                Find Your Car
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </a>
+        </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <a href="#quickSearch" class="hero-scroll-indicator" aria-label="Scroll to discover">
+        <div class="scroll-mouse">
+            <div class="scroll-wheel"></div>
+        </div>
+        <span>Discover Fleet</span>
+    </a>
+</section>
+
+<!-- ==========================================================================
+     QUICK SEARCH FLOATING BAR
+     ========================================================================== -->
+<div class="quick-search-wrapper" id="quickSearch">
+    <div class="quick-search-card">
+        <form action="{% url 'cars_list' %}" method="get" class="quick-search-grid">
+            <div class="filter-group">
+                <label>Select Brand</label>
+                <select name="brand" class="form-select">
+                    <option value="">All Luxury Brands</option>
+                    {% for b in brands %}
+                        <option value="{{ b }}">{{ b }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label>Body Style</label>
+                <select name="body_type" class="form-select">
+                    <option value="">All Body Styles</option>
+                    {% for bt in body_types %}
+                        <option value="{{ bt }}">{{ bt }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label>Max Budget</label>
+                <select name="max_price" class="form-select">
+                    <option value="">Any Price</option>
+                    <option value="100000">Under $100,000</option>
+                    <option value="150000">Under $150,000</option>
+                    <option value="200000">Under $200,000</option>
+                    <option value="300000">Under $300,000</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label>Keyword / Model</label>
+                <input type="text" name="q" class="form-input" placeholder="e.g. AMG, GT3, V8...">
+            </div>
+
+            <button type="submit" class="btn-primary" style="height: 48px; white-space: nowrap;">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                Search Fleet
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- ==========================================================================
+     9. STATISTICS SECTION (Animated Counters)
+     ========================================================================== -->
+<section class="stats-section">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number">
+                    <span class="counter-value" data-target="500" data-suffix="+">0</span>
+                </div>
+                <div class="stat-label">Cars Listed</div>
+                <div class="stat-sublabel">Verified luxury fleet inventory</div>
+            </div>
+
+            <div class="stat-item">
+                <div class="stat-number">
+                    <span class="counter-value" data-target="50" data-suffix="+">0</span>
+                </div>
+                <div class="stat-label">Prestige Brands</div>
+                <div class="stat-sublabel">World-renowned automakers</div>
+            </div>
+
+            <div class="stat-item">
+                <div class="stat-number">
+                    <span class="counter-value" data-target="1000" data-suffix="+">0</span>
+                </div>
+                <div class="stat-label">Happy Clients</div>
+                <div class="stat-sublabel">Delivered nationwide with white-glove care</div>
+            </div>
+
+            <div class="stat-item">
+                <div class="stat-number">
+                    <span class="counter-value" data-target="24" data-suffix="/7">0</span>
+                </div>
+                <div class="stat-label">VIP Concierge</div>
+                <div class="stat-sublabel">Dedicated private automotive advisory</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     2. FEATURED CARS SECTION
+     ========================================================================== -->
+<section class="section" style="padding: 6rem 0;" id="featured">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-tag">
+                <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--accent-red);"></span>
+                Handpicked Excellence
+            </div>
+            <h2 class="section-title">Featured Luxury Fleet</h2>
+            <p class="section-subtitle">
+                Explore our handpicked curation of exceptional supercars, executive sedans, and high-performance grand tourers ready for immediate delivery.
+            </p>
+        </div>
+
+        <div class="cars-grid">
+            {% for car in featured_cars %}
+                <div class="car-card">
+                    <div class="car-card-media">
+                        <img src="{{ car.get_image_url }}" alt="{{ car.brand }} {{ car.name }}" class="car-card-img" loading="lazy">
+                        <div class="car-card-badges">
+                            <span class="badge badge-red">FEATURED</span>
+                            <span class="badge badge-glass">{{ car.body_type }}</span>
+                        </div>
+                        <!-- Favorite Heart Button -->
+                        <button type="button" 
+                                class="btn-fav {% if car.id in favorite_ids %}active{% endif %}" 
+                                onclick="toggleFavorite({{ car.id }}, this)"
+                                aria-label="Save to favorites">
+                            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="car-card-body">
+                        <div class="car-card-meta">
+                            <span class="car-brand">{{ car.brand }}</span>
+                            <span class="car-year">{{ car.year }} Model</span>
+                        </div>
+                        <h3 class="car-title">{{ car.name }}</h3>
+
+                        <!-- Spec Pills -->
+                        <div class="car-specs-grid">
+                            <div class="spec-pill">
+                                <span class="spec-pill-label">Fuel</span>
+                                <span class="spec-pill-value">{{ car.fuel_type }}</span>
+                            </div>
+                            <div class="spec-pill">
+                                <span class="spec-pill-label">Transmission</span>
+                                <span class="spec-pill-value">{{ car.transmission }}</span>
+                            </div>
+                            <div class="spec-pill">
+                                <span class="spec-pill-label">Mileage</span>
+                                <span class="spec-pill-value">{{ car.mileage|default:0 }} km</span>
+                            </div>
+                        </div>
+
+                        <div class="car-card-footer">
+                            <div class="car-price-block">
+                                <span class="car-price-label">Starting at</span>
+                                <div class="car-price">{{ car.formatted_price }}</div>
+                            </div>
+                            <a href="{% url 'car_detail' car.id %}" class="btn-card-action">
+                                View Details
+                                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div style="text-align: center; margin-top: 3.5rem;">
+            <a href="{% url 'cars_list' %}" class="btn-secondary" style="padding: 1rem 2.5rem; font-size: 1rem;">
+                Browse Complete Showroom ({{ total_cars_count }} Vehicles)
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     10. ABOUT CARHUB PREVIEW SECTION
+     ========================================================================== -->
+<section class="about-section" style="background: var(--bg-secondary); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);">
+    <div class="container">
+        <div class="about-split">
+            <div class="about-image-card">
+                <img src="{% static 'images/intmain.jpg' %}" alt="CarHub Cockpit Craftsmanship">
+                <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 2rem; background: linear-gradient(180deg, transparent, rgba(8, 8, 10, 0.95));">
+                    <span class="badge badge-red" style="margin-bottom: 0.5rem;">PRECISION CRAFTSMANSHIP</span>
+                    <h3 style="color: white; font-size: 1.3rem; font-weight: 700;">Every vehicle passes our stringent 150-point technical audit.</h3>
+                </div>
+            </div>
+
+            <div>
+                <div class="section-tag">
+                    <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--accent-red);"></span>
+                    Why CarHub
+                </div>
+                <h2 class="section-title" style="text-align: left; margin-bottom: 1.5rem;">
+                    Revolutionizing Luxury Vehicle Discovery & Acquisition
+                </h2>
+                <p style="color: var(--text-secondary); margin-bottom: 1.25rem; font-size: 1.05rem; line-height: 1.7;">
+                    CarHub was created to eliminate the opacity, aggressive dealership tactics, and uncertainty of buying top-tier automotive machines. We curate the highest-standard luxury, exotic, and performance vehicles across the globe.
+                </p>
+                <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 1rem; line-height: 1.7;">
+                    From instant side-by-side technical comparisons to booking VIP track test drives, CarHub empowers enthusiasts and collectors with transparent pricing, full vehicle history, and personalized concierge guidance.
+                </p>
+
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <a href="{% url 'about' %}" class="btn-primary">
+                        Learn More About Us
+                    </a>
+                    <a href="{% url 'compare_cars' %}" class="btn-secondary">
+                        Compare Vehicles
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3 Feature Pillars -->
+        <div class="about-features-grid">
+            <div class="about-feature-box">
+                <div class="about-feature-icon">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                </div>
+                <h3>150-Point Certified Inspection</h3>
+                <p>Engine, drivetrain, electronics, and bodywork rigorously inspected by certified master technicians before listing.</p>
+            </div>
+
+            <div class="about-feature-box">
+                <div class="about-feature-icon">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                </div>
+                <h3>Transparent Pricing</h3>
+                <p>No concealed dealer markups or surprise fees. What you see is exact, honest luxury valuation with verified provenance.</p>
+            </div>
+
+            <div class="about-feature-box">
+                <div class="about-feature-icon">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                </div>
+                <h3>Concierge Test Drives</h3>
+                <p>Experience your chosen vehicle on your schedule. We coordinate private showroom viewings or doorstep deliveries.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     PRESTIGE BRANDS SHOWCASE
+     ========================================================================== -->
+<section style="padding: 5rem 0; background: var(--bg-primary); border-top: 1px solid var(--border-subtle);" id="brands">
+    <div class="container">
+        <div class="section-header" style="margin-bottom: 2.5rem;">
+            <div class="section-tag">
+                <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--accent-red);"></span>
+                World-Class Marques
+            </div>
+            <h2 class="section-title">Browse by Prestige Brand</h2>
+            <p class="section-subtitle">
+                Direct access to handcrafted precision from the world's most distinguished performance manufacturers.
+            </p>
+        </div>
+
+        <div style="display: flex; gap: 1.25rem; justify-content: center; flex-wrap: wrap;">
+            {% for b in brands %}
+                <a href="{% url 'cars_list' %}?brand={{ b }}" 
+                   class="badge badge-glass" 
+                   style="padding: 0.9rem 1.8rem; font-size: 0.95rem; font-weight: 700; border-radius: var(--radius-md); transition: var(--transition-normal); display: inline-flex; align-items: center; gap: 0.6rem;">
+                    <span style="color: var(--accent-red); font-size: 1.1rem;">🏎️</span>
+                    <span>{{ b }}</span>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     CLIENT REVIEWS PREVIEW
+     ========================================================================== -->
+<section style="padding: 6rem 0; background: var(--bg-secondary); border-top: 1px solid var(--border-subtle);">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-tag">
+                <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--accent-red);"></span>
+                Client Testimonials
+            </div>
+            <h2 class="section-title">What Discerning Drivers Say</h2>
+            <p class="section-subtitle">
+                Authentic delivery and ownership experiences from supercar collectors and performance enthusiasts.
+            </p>
+        </div>
+
+        <div class="reviews-grid">
+            <div class="review-card">
+                <div class="review-top">
+                    <img src="{% static 'images/face1.jpg' %}" alt="Priya Sharma" class="review-avatar">
+                    <div>
+                        <h3 style="color: white; font-size: 1.15rem;">Priya Sharma</h3>
+                        <span style="color: var(--accent-red); font-size: 0.82rem; font-weight: 600;">Porsche 911 GT3 RS Owner</span>
+                    </div>
+                </div>
+                <div style="color: #f59e0b; margin-bottom: 0.75rem;">★★★★★</div>
+                <p class="review-text">
+                    "The white-glove delivery experience was impeccable. CarHub arranged a private closed-track trial session before finalizing the handover."
+                </p>
+            </div>
+
+            <div class="review-card">
+                <div class="review-top">
+                    <img src="{% static 'images/face2.jpg' %}" alt="Rahul Mehta" class="review-avatar">
+                    <div>
+                        <h3 style="color: white; font-size: 1.15rem;">Rahul Mehta</h3>
+                        <span style="color: var(--accent-red); font-size: 0.82rem; font-weight: 600;">Mercedes-AMG GT 63 S Owner</span>
+                    </div>
+                </div>
+                <div style="color: #f59e0b; margin-bottom: 0.75rem;">★★★★★</div>
+                <p class="review-text">
+                    "Finding an unblemished AMG GT 63 with complete carbon package was seamless through CarHub's VIP concierge. Enclosed transport was on time."
+                </p>
+            </div>
+
+            <div class="review-card">
+                <div class="review-top">
+                    <img src="{% static 'images/face3.jpg' %}" alt="Ananya Verma" class="review-avatar">
+                    <div>
+                        <h3 style="color: white; font-size: 1.15rem;">Ananya Verma</h3>
+                        <span style="color: var(--accent-red); font-size: 0.82rem; font-weight: 600;">Range Rover SV Owner</span>
+                    </div>
+                </div>
+                <div style="color: #f59e0b; margin-bottom: 0.75rem;">★★★★★</div>
+                <p class="review-text">
+                    "The comparison tool gave my family total clarity between the Range Rover SV and G 63. Truly the gold standard in automotive luxury."
+                </p>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="{% url 'reviews' %}" class="btn-secondary" style="padding: 0.85rem 2rem;">
+                Read All 1,280+ Reviews
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     TEST DRIVE CTA BANNER
+     ========================================================================== -->
+<section style="padding: 6rem 0; position: relative; overflow: hidden; background: radial-gradient(ellipse at 50% 50%, rgba(229, 9, 20, 0.18) 0%, var(--bg-primary) 70%);">
+    <div class="container" style="text-align: center; max-width: 800px;">
+        <span class="badge badge-red" style="margin-bottom: 1rem;">EXCLUSIVE OPPORTUNITY</span>
+        <h2 style="font-size: clamp(2.2rem, 4vw, 3.2rem); font-weight: 800; color: white; margin-bottom: 1.25rem;">
+            Ready to Feel the Surge of Pure Power?
+        </h2>
+        <p style="color: var(--text-secondary); font-size: 1.15rem; margin-bottom: 2.5rem; line-height: 1.6;">
+            Schedule a private VIP test drive in any vehicle from our curated fleet. Our senior product advisors provide an immersive overview on road or closed track.
+        </p>
+        <button type="button" class="btn-primary" onclick="openTestDriveModal()" style="padding: 1.1rem 2.8rem; font-size: 1.05rem;">
+            Book VIP Test Drive
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+    </div>
+</section>
+
+{% endblock %}

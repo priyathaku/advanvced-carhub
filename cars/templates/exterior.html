@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Exterior Aesthetics & Aerodynamic Mastery | CarHub{% endblock %}
+
+{% block content %}
+<!-- Exterior Hero Section -->
+<section class="hero-section" style="min-height: 75vh; background-image: linear-gradient(180deg, rgba(8, 8, 10, 0.4) 0%, rgba(8, 8, 10, 0.9) 80%, var(--bg-primary) 100%), url('{% static 'images/card1.webp' %}'); background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; text-align: center; padding-top: 7rem;">
+    <div class="hero-content">
+        <div class="hero-eyebrow">
+            <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--accent-red);"></span>
+            Sculpted by the Wind
+        </div>
+        <h1 class="hero-title">Exterior <span class="text-red">Aerodynamics</span> & Form</h1>
+        <p class="hero-subtitle">
+            Every crease, intake duct, and active wing is engineered for maximum downforce, minimal drag coefficient, and commanding road presence.
+        </p>
+        <div class="hero-cta-group">
+            <a href="#exteriorVideo" class="btn-primary">
+                Watch Dynamic Video
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+            </a>
+            <a href="{% url 'cars_list' %}" class="btn-secondary">
+                View Available Models
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     EXTERIOR VIDEO SECTION (Preserving User's Uploaded / Streamed Video!)
+     ========================================================================== -->
+<section class="exterior-video-section" id="exteriorVideo" style="padding: 6rem 0; background: var(--bg-secondary);">
+    <div class="container">
+        <div class="exterior-video-container">
+            <div class="exterior-video" style="flex: 1 1 55%;">
+                <div style="position: relative; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border-light); box-shadow: var(--shadow-lg), var(--shadow-red-glow); background: #000;">
+                    <video id="car-video" width="100%" autoplay loop muted playsinline controls style="display: block; border-radius: var(--radius-lg);"></video>
+                </div>
+            </div>
+
+            <div style="flex: 1 1 40%;">
+                <div class="section-tag">
+                    <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--accent-red);"></span>
+                    High-Speed Stability
+                </div>
+                <h2 style="font-size: clamp(2rem, 3.5vw, 2.6rem); font-weight: 800; color: white; margin-bottom: 1.25rem; line-height: 1.2;">
+                    Aerodynamic Excellence in Motion
+                </h2>
+                <p style="color: var(--text-secondary); font-size: 1.05rem; line-height: 1.7; margin-bottom: 1.25rem;">
+                    Watch how active radiator shutters, wheel-arch air curtains, and automatically deploying carbon diffusers sculpt airflow at triple-digit speeds.
+                </p>
+                <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.7; margin-bottom: 2rem;">
+                    Weight distribution is optimized through composite carbon-fiber body panels, ultra-high-strength aluminum subframes, and forged magnesium alloy center-lock wheels.
+                </p>
+                <button type="button" class="btn-primary" onclick="openTestDriveModal()">
+                    Experience Track Test Drive
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- HLS.js streaming script for exterior video (preserved & hardened) -->
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script>
+    const extVideo = document.getElementById('car-video');
+    const extVideoSrc = "https://stream.bmw.com.cn/hls-vod/BMW/_media_/6df/6dfc18f1-9c44-4ebc-8c20-0e219ea37559.mp4.m3u8";
+
+    if (extVideo) {
+        if (Hls.isSupported()) {
+            const hls = new Hls({ enableWorker: true });
+            hls.loadSource(extVideoSrc);
+            hls.attachMedia(extVideo);
+            hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                extVideo.play().catch(e => console.log('Autoplay deferred:', e));
+            });
+        } else if (extVideo.canPlayType('application/vnd.apple.mpegurl')) {
+            extVideo.src = extVideoSrc;
+            extVideo.play().catch(e => console.log('Autoplay deferred:', e));
+        }
+    }
+</script>
+
+<!-- ==========================================================================
+     EXTERIOR HIGHLIGHTS GRID
+     ========================================================================== -->
+<section style="padding: 6rem 0; background: var(--bg-primary);">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-tag">
+                <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--accent-red);"></span>
+                Design Vocabulary
+            </div>
+            <h2 class="section-title">Exterior Highlights & Innovations</h2>
+            <p class="section-subtitle">
+                Precision lines and motorsport aerodynamics that command attention on the street and deliver poise on the track.
+            </p>
+        </div>
+
+        <div class="cars-grid">
+            <div class="car-card">
+                <div class="car-card-media" style="height: 220px;">
+                    <img src="{% static 'images/card1.webp' %}" alt="Laser Matrix Lighting" class="car-card-img">
+                </div>
+                <div class="car-card-body">
+                    <span class="car-brand">Optics</span>
+                    <h3 class="car-title" style="margin-bottom: 0.5rem;">Digital Light Matrix Headlamps</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">Over 1.3 million micro-mirrors per lamp project high-resolution warnings and guide beams directly onto the road surface.</p>
+                </div>
+            </div>
+
+            <div class="car-card">
+                <div class="car-card-media" style="height: 220px;">
+                    <img src="{% static 'images/card2.avif' %}" alt="Aerodynamic Body Contours" class="car-card-img">
+                </div>
+                <div class="car-card-body">
+                    <span class="car-brand">Aerodynamics</span>
+                    <h3 class="car-title" style="margin-bottom: 0.5rem;">Active Rear Carbon Diffuser</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">Multi-stage active rear wing extends automatically above 80 km/h, generating up to 250 kg of supplementary downforce.</p>
+                </div>
+            </div>
+
+            <div class="car-card">
+                <div class="car-card-media" style="height: 220px;">
+                    <img src="{% static 'images/card3.webp' %}" alt="Forged Performance Wheels" class="car-card-img">
+                </div>
+                <div class="car-card-body">
+                    <span class="car-brand">Running Gear</span>
+                    <h3 class="car-title" style="margin-bottom: 0.5rem;">21-Inch Forged Center-Lock Wheels</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">Precision-machined from single-billet aerospace alloy, cutting unsprung rotational mass by 14% for razor-sharp turn-in.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     MODELS RANGE SHOWCASE
+     ========================================================================== -->
+<section class="models-section" style="border-top: 1px solid var(--border-subtle); padding: 6rem 0;">
+    <div class="container" style="display: flex; gap: 4rem; flex-wrap: wrap; align-items: flex-start;">
+        <div class="models-header" style="flex: 1 1 320px;">
+            <div class="section-tag">
+                <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--accent-red);"></span>
+                Form Factors
+            </div>
+            <h2 style="font-size: clamp(2rem, 3.5vw, 2.6rem); font-weight: 800; color: white; line-height: 1.2; margin-bottom: 1.5rem;">
+                Expressive, Powerful, Dynamic: Our Curated Body Styles
+            </h2>
+            <p style="color: var(--text-secondary); margin-bottom: 2rem; line-height: 1.6;">
+                From sleek aerodynamic four-door coupes to imposing performance SUVs, select the silhouette that commands your vision.
+            </p>
+            <a href="{% url 'cars_list' %}" class="btn-primary">
+                Browse Full Catalog
+            </a>
+        </div>
+
+        <div class="models-grid" style="flex: 2 1 500px;">
+            <div class="model-card">
+                <img src="{% static 'images/ex03.png' %}" alt="Roadsters & Convertibles">
+                <div class="model-info">
+                    <p>Open-Air Thrill</p>
+                    <h3>Roadsters & Spiders</h3>
+                </div>
+            </div>
+
+            <div class="model-card">
+                <img src="{% static 'images/ex02.png' %}" alt="Performance SUV Range">
+                <div class="model-info">
+                    <p>Unstoppable Poise</p>
+                    <h3>Performance SUVs</h3>
+                </div>
+            </div>
+
+            <div class="model-card">
+                <img src="{% static 'images/ex02.png' %}" alt="Grand Touring Coupes">
+                <div class="model-info">
+                    <p>Sculpted Speed</p>
+                    <h3>Grand Coupés</h3>
+                </div>
+            </div>
+
+            <div class="model-card">
+                <img src="{% static 'images/ex03.png' %}" alt="Executive Saloons">
+                <div class="model-info">
+                    <p>Pinnacle Prestige</p>
+                    <h3>Executive Limousines</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Compare Luxury Vehicles | CarHub{% endblock %}
+
+{% block content %}
+<section class="compare-section">
+    <div class="container">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-nav">
+            <a href="{% url 'home' %}">Home</a>
+            <span>/</span>
+            <span style="color: var(--text-white);">Comparison Tool</span>
+        </div>
+
+        <div class="section-header" style="text-align: left; margin-bottom: 2.5rem;">
+            <div class="section-tag">
+                <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--accent-red);"></span>
+                Head-to-Head Analysis
+            </div>
+            <h1 class="section-title">Compare Precision Specifications</h1>
+            <p class="section-subtitle">
+                Select up to 3 luxury vehicles side-by-side to analyze pricing, powertrains, acceleration, efficiency, and engineering differences.
+            </p>
+        </div>
+
+        <!-- Vehicle Selectors Form -->
+        <div class="compare-selector-card">
+            <form method="get" action="{% url 'compare_cars' %}" class="compare-selectors-grid">
+                <div class="filter-group">
+                    <label>First Vehicle</label>
+                    <select name="car" class="form-select">
+                        <option value="">-- Choose Car 1 --</option>
+                        {% for c in all_cars %}
+                            <option value="{{ c.id }}" {% if selected_cars.0 and selected_cars.0.id == c.id %}selected{% endif %}>
+                                {{ c.brand }} {{ c.name }} ({{ c.year }}) - {{ c.formatted_price }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>Second Vehicle</label>
+                    <select name="car" class="form-select">
+                        <option value="">-- Choose Car 2 --</option>
+                        {% for c in all_cars %}
+                            <option value="{{ c.id }}" {% if selected_cars.1 and selected_cars.1.id == c.id %}selected{% endif %}>
+                                {{ c.brand }} {{ c.name }} ({{ c.year }}) - {{ c.formatted_price }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>Third Vehicle (Optional)</label>
+                    <select name="car" class="form-select">
+                        <option value="">-- Choose Car 3 --</option>
+                        {% for c in all_cars %}
+                            <option value="{{ c.id }}" {% if selected_cars.2 and selected_cars.2.id == c.id %}selected{% endif %}>
+                                {{ c.brand }} {{ c.name }} ({{ c.year }}) - {{ c.formatted_price }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-primary" style="height: 48px; padding: 0 1.8rem;">
+                    Compare Now
+                </button>
+            </form>
+        </div>
+
+        <!-- Comparison Table Area -->
+        {% if selected_cars %}
+            <div class="compare-table-wrapper">
+                <table class="compare-table">
+                    <thead>
+                        <tr>
+                            <th style="vertical-align: bottom;">Specification</th>
+                            {% for c in selected_cars %}
+                                <td class="compare-car-header">
+                                    <img src="{{ c.get_image_url }}" alt="{{ c.name }}" class="compare-car-thumb">
+                                    <div class="car-brand" style="font-size:0.75rem;">{{ c.brand }}</div>
+                                    <div class="compare-car-name">{{ c.name }}</div>
+                                    <div class="compare-car-price">{{ c.formatted_price }}</div>
+                                    <div style="margin-top: 1rem; display: flex; gap: 0.5rem; justify-content: center;">
+                                        <a href="{% url 'car_detail' c.id %}" class="btn-card-action" style="font-size: 0.8rem; padding: 0.4rem 0.9rem;">
+                                            View Details
+                                        </a>
+                                        <button type="button" class="btn-secondary" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;" onclick="openTestDriveModal({{ c.id }}, '{{ c.brand }} {{ c.name }}')">
+                                            Test Drive
+                                        </button>
+                                    </div>
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Price -->
+                        <tr>
+                            <th>Price</th>
+                            {% for c in selected_cars %}
+                                <td>
+                                    <strong style="color: var(--accent-red); font-size: 1.15rem;">{{ c.formatted_price }}</strong>
+                                </td>
+                            {% endfor %}
+                        </tr>
+
+                        <!-- Horsepower -->
+                        <tr>
+                            <th>Horsepower</th>
+                            {% for c in selected_cars %}
+                                <td>
+                                    <span style="font-size: 1.1rem; font-weight: 700; color: white;">{{ c.horsepower }} HP</span>
+                                </td>
+                            {% endfor %}
+                        </tr>
+
+                        <!-- Engine / Powertrain -->
+                        <tr>
+                            <th>Engine / Powertrain</th>
+                            {% for c in selected_cars %}
+                                <td>{{ c.engine }}</td>
+                            {% endfor %}
+                        </tr>
+
+                        <!-- Transmission -->
+                        <tr>
+                            <th>Transmission</th>
+                            {% for c in selected_cars %}
+                                <td>{{ c.transmission }}</td>
+                            {% endfor %}
+                        </tr>
+
+                        <!-- Fuel Type -->
+                        <tr>
+                            <th>Fuel Type</th>
+                            {% for c in selected_cars %}
+                                <td>{{ c.fuel_type }}</td>
+                            {% endfor %}
+                        </tr>
+
+                        <!-- Mileage -->
+                        <tr>
+                            <th>Odometer Mileage</th>
+                            {% for c in selected_cars %}
+                                <td>{{ c.mileage }} km</td>
+                            {% endfor %}
+                        </tr>
+
+                        <!-- Seating Capacity -->
+                        <tr>
+                            <th>Seating Capacity</th>
+                            {% for c in selected_cars %}
+                                <td>{{ c.seating_capacity }} Seats</td>
+                            {% endfor %}
+                        </tr>
+
+                        <!-- Body Style -->
+                        <tr>
+                            <th>Body Style</th>
+                            {% for c in selected_cars %}
+                                <td><span class="badge badge-glass">{{ c.body_type }}</span></td>
+                            {% endfor %}
+                        </tr>
+
+                        <!-- Model Year -->
+                        <tr>
+                            <th>Model Year</th>
+                            {% for c in selected_cars %}
+                                <td>{{ c.year }}</td>
+                            {% endfor %}
+                        </tr>
+
+                        <!-- Overview Summary -->
+                        <tr>
+                            <th>Vehicle Summary</th>
+                            {% for c in selected_cars %}
+                                <td style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">
+                                    {{ c.description|truncatewords:25 }}
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <div class="empty-state-icon">⚖️</div>
+                <h3>Select Vehicles to Begin Side-by-Side Comparison</h3>
+                <p>Choose two or three cars from the dropdown selectors above or browse our inventory and click "Compare" on any card.</p>
+                <a href="{% url 'cars_list' %}" class="btn-primary">
+                    Browse All Cars
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

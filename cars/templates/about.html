@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About CarHub | Redefining Luxury Automotive Discovery{% endblock %}
+
+{% block content %}
+<section class="about-section">
+    <div class="container">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-nav">
+            <a href="{% url 'home' %}">Home</a>
+            <span>/</span>
+            <span style="color: var(--text-white);">About Us</span>
+        </div>
+
+        <!-- Hero Section for About -->
+        <div style="text-align: center; max-width: 820px; margin: 0 auto 5rem;">
+            <div class="section-tag">
+                <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--accent-red);"></span>
+                Our Vision & Mission
+            </div>
+            <h1 class="section-title" style="font-size: clamp(2.5rem, 5vw, 3.8rem);">
+                The Standard in Luxury & Performance Mobility
+            </h1>
+            <p class="section-subtitle" style="font-size: 1.15rem;">
+                CarHub bridges the gap between passionate drivers and the world's most distinguished supercars and luxury vehicles through precision verification, uncompromised transparency, and bespoke VIP service.
+            </p>
+        </div>
+
+        <!-- Split 1: What CarHub is & What Problem It Solves -->
+        <div class="about-split">
+            <div class="about-image-card">
+                <img src="{% static 'images/car1.png' %}" alt="Exotic High Performance Engineering">
+                <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 2rem; background: linear-gradient(180deg, transparent, rgba(8, 8, 10, 0.95));">
+                    <span class="badge badge-red" style="margin-bottom: 0.5rem;">MOTORSPORT HERITAGE</span>
+                    <h3 style="color: white; font-size: 1.25rem; font-weight: 700;">Engineered without compromise for the world's most demanding drivers.</h3>
+                </div>
+            </div>
+
+            <div>
+                <div class="section-tag">
+                    <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--accent-red);"></span>
+                    The Problem We Solve
+                </div>
+                <h2 style="font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 800; color: white; margin-bottom: 1.25rem; line-height: 1.2;">
+                    Eliminating Uncertainty in the Prestige Automotive Market
+                </h2>
+                <p style="color: var(--text-secondary); margin-bottom: 1.25rem; font-size: 1.05rem; line-height: 1.7;">
+                    Traditionally, acquiring a luxury or performance vehicle meant wrestling with fragmented dealer inventories, undisclosed vehicle histories, unpredictable markups, and high-pressure sales environments.
+                </p>
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 1rem; line-height: 1.7;">
+                    <strong>CarHub completely reimagines this paradigm.</strong> We serve as a digital sanctuary where connoisseurs can explore vetted supercars, examine verified technical dyno records, and evaluate side-by-side engineering benchmarks with absolute confidence.
+                </p>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem;">
+                    <div style="padding: 1.25rem; background: var(--bg-card); border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+                        <strong style="color: var(--accent-red); font-size: 1.4rem; display: block; margin-bottom: 0.25rem;">100%</strong>
+                        <span style="color: var(--text-primary); font-size: 0.9rem; font-weight: 600;">Verified Vehicle Provenance</span>
+                    </div>
+                    <div style="padding: 1.25rem; background: var(--bg-card); border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+                        <strong style="color: var(--accent-red); font-size: 1.4rem; display: block; margin-bottom: 0.25rem;">0</strong>
+                        <span style="color: var(--text-primary); font-size: 0.9rem; font-weight: 600;">Hidden Markups or Fees</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Split 2: How Users Discover & Compare Cars -->
+        <div class="about-split" style="margin-top: 5rem;">
+            <div>
+                <div class="section-tag">
+                    <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--accent-red);"></span>
+                    Seamless Discovery & Comparison
+                </div>
+                <h2 style="font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 800; color: white; margin-bottom: 1.25rem; line-height: 1.2;">
+                    Data-Driven Selection Engineered for Enthusiasts
+                </h2>
+                <p style="color: var(--text-secondary); margin-bottom: 1.25rem; font-size: 1.05rem; line-height: 1.7;">
+                    Whether you are seeking a twin-turbo V8 grand tourer, an electric hyper-sedan, or a handcrafted off-road icon, CarHub gives you granular filters by horsepower, transmission type, fuel technology, and mileage.
+                </p>
+                <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 1rem; line-height: 1.7;">
+                    Our <strong>Interactive Head-to-Head Comparison Engine</strong> lets you line up two or three vehicles simultaneously, dynamically isolating acceleration metrics, transmission ratios, and cockpit dimensions to determine the ideal addition to your garage.
+                </p>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <a href="{% url 'compare_cars' %}" class="btn-primary">
+                        Launch Comparison Tool
+                    </a>
+                    <a href="{% url 'cars_list' %}" class="btn-secondary">
+                        Browse Entire Fleet
+                    </a>
+                </div>
+            </div>
+
+            <div class="about-image-card">
+                <img src="{% static 'images/car3.png' %}" alt="Sculpted Performance Aesthetics">
+                <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 2rem; background: linear-gradient(180deg, transparent, rgba(8, 8, 10, 0.95));">
+                    <span class="badge badge-red" style="margin-bottom: 0.5rem;">METRIC-DRIVEN PRECISION</span>
+                    <h3 style="color: white; font-size: 1.25rem; font-weight: 700;">Compare horsepower, torque, and power-to-weight with real backend data.</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4 Key Pillars of CarHub -->
+        <div style="margin-top: 6rem;">
+            <div class="section-header">
+                <div class="section-tag">
+                    <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--accent-red);"></span>
+                    The Four Pillars
+                </div>
+                <h2 class="section-title">Why the World's Discerning Drivers Choose CarHub</h2>
+            </div>
+
+            <div class="about-features-grid">
+                <div class="about-feature-box">
+                    <div class="about-feature-icon">🛡️</div>
+                    <h3>150-Point Master Certification</h3>
+                    <p>Every single listing undergoes an exhaustive mechanical, optical, and computer diagnostic examination by factory-trained specialists.</p>
+                </div>
+
+                <div class="about-feature-box">
+                    <div class="about-feature-icon">⚖️</div>
+                    <h3>Direct Specification Comparison</h3>
+                    <p>Evaluate torque curves, 0-100 times, transmission mechanics, and cabin volumes side-by-side without misleading sales jargon.</p>
+                </div>
+
+                <div class="about-feature-box">
+                    <div class="about-feature-icon">🏎️</div>
+                    <h3>White-Glove VIP Test Drives</h3>
+                    <p>Experience the road feel on your own terms. We coordinate closed-circuit private trials or deliver vehicles directly to your residence.</p>
+                </div>
+
+                <div class="about-feature-box">
+                    <div class="about-feature-icon">🌐</div>
+                    <h3>Nationwide Enclosed Transport</h3>
+                    <p>From showroom floor to your climate-controlled garage, our climate-controlled enclosed carriers protect vehicle integrity at every mile.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
